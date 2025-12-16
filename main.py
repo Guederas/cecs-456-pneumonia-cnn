@@ -1,7 +1,7 @@
 # CNN model that predicts Pneumonia or Normal given X-ray dataset
 import tensorflow as tf
 import keras
-from keras import layers, models, callbacks
+from keras import layers, models
 import os
 
 # Configuration
@@ -31,7 +31,7 @@ test_ds = keras.utils.image_dataset_from_directory(
     color_mode='grayscale'
 )
 
-validate_ds = keras.utils.image_dataset_from_directory(
+val_ds = keras.utils.image_dataset_from_directory(
     VAL_DIR,
     image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
@@ -73,3 +73,32 @@ model.add(layers.Dropout(0.2))
 model.add(layers.BatchNormalization())
 model.add(layers.MaxPool2D((2, 2),strides=2, padding='same'))   # pooling 5
 
+# Flatten and Dense
+model.add(layers.Flatten())
+model.add(layers.Dense(128, activation='relu'))
+model.add(layers.Dropout(0.2))
+model.add(layers.Dense(1, activation='sigmoid'))    # binary output (normal or pneumonia)
+
+# Compile
+model.compile(
+    optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+
+model.summary()
+
+# Train
+print("n\Starting Training...")
+history = model.fit(
+    train_ds,
+    epochs=5,
+    validation_data=val_ds,
+)
+
+# Evaluate
+print("\nEvaluating Model...")
+score = model.evaluate(test_ds)
+print(f"Test Accuracy: {score[1]*100:.2f}%")
+
+model.save('pneumonia_model.h5')
