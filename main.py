@@ -89,7 +89,7 @@ model.compile(
 model.summary()
 
 # Train
-print("n\Starting Training...")
+print("\nStarting Training...")
 history = model.fit(
     train_ds,
     epochs=5,
