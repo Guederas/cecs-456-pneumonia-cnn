@@ -4,8 +4,7 @@ import keras
 import os
 
 # Configuration
-IMG_HEIGHT = 128
-IMG_WIDTH = 128
+IMG_SIZE = 128
 BATCH_SIZE = 32
 
 TRAIN_DIR = os.path.join('data', 'train')
@@ -17,7 +16,7 @@ print("Loading Data...")
 
 train_ds = keras.utils.image_dataset_from_directory(
     TRAIN_DIR,
-    image_size=(IMG_HEIGHT, IMG_WIDTH),
+    image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
     label_mode='binary'
     color_mode='grayscale'
@@ -25,7 +24,7 @@ train_ds = keras.utils.image_dataset_from_directory(
 
 test_ds = keras.utils.image_dataset_from_directory(
     TEST_DIR,
-    image_size=(IMG_HEIGHT, IMG_WIDTH),
+    image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
     label_mode='binary'
     color_mode='grayscale'
@@ -33,7 +32,7 @@ test_ds = keras.utils.image_dataset_from_directory(
 
 validate_ds = keras.utils.image_dataset_from_directory(
     VAL_DIR,
-    image_size=(IMG_HEIGHT, IMG_WIDTH),
+    image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
     label_mode='binary'
     color_mode='grayscale'
