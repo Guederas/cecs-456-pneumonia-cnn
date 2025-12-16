@@ -19,7 +19,7 @@ train_ds = keras.utils.image_dataset_from_directory(
     TRAIN_DIR,
     image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
-    label_mode='binary'
+    label_mode='binary',
     color_mode='grayscale'
 )
 
@@ -27,7 +27,7 @@ test_ds = keras.utils.image_dataset_from_directory(
     TEST_DIR,
     image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
-    label_mode='binary'
+    label_mode='binary',
     color_mode='grayscale'
 )
 
@@ -35,7 +35,7 @@ validate_ds = keras.utils.image_dataset_from_directory(
     VAL_DIR,
     image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
-    label_mode='binary'
+    label_mode='binary',
     color_mode='grayscale'
 )
 
@@ -72,3 +72,4 @@ model.add(layers.Conv2D(256, (3, 3), strides=1, padding='same', activation='relu
 model.add(layers.Dropout(0.2))
 model.add(layers.BatchNormalization())
 model.add(layers.MaxPool2D((2, 2),strides=2, padding='same'))   # pooling 5
+
