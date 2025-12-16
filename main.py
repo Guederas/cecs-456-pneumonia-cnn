@@ -101,4 +101,4 @@ print("\nEvaluating Model...")
 score = model.evaluate(test_ds)
 print(f"Test Accuracy: {score[1]*100:.2f}%")
 
-model.save('pneumonia_model.h5')
+model.save(os.path.join('models', 'pneumonia_model.h5'))
