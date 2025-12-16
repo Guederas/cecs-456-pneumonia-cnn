@@ -5,7 +5,7 @@ from keras import layers, models
 import os
 
 # Configuration
-IMG_SIZE = 128
+IMG_SIZE = 150  # better detail needed for x-ray images
 BATCH_SIZE = 32
 
 TRAIN_DIR = os.path.join('data', 'train')
@@ -92,7 +92,7 @@ model.summary()
 print("\nStarting Training...")
 history = model.fit(
     train_ds,
-    epochs=5,
+    epochs=12,
     validation_data=val_ds,
 )
 
@@ -101,4 +101,4 @@ print("\nEvaluating Model...")
 score = model.evaluate(test_ds)
 print(f"Test Accuracy: {score[1]*100:.2f}%")
 
-model.save(os.path.join('models', 'pneumonia_model.h5'))
+model.save(os.path.join('models', 'pneumonia_model.keras'))
