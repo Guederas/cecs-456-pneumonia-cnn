@@ -1,6 +1,6 @@
 # CNN model that predicts Pneumonia or Normal given X-ray dataset
 import keras
-from keras import layers, models
+from keras import layers, models, callbacks
 import os
 
 # Configuration
@@ -97,12 +97,39 @@ model.compile(
 
 model.summary()
 
-# Train
+# Defining all Callbacks
+# Save the best model
+checkpoint = callbacks.ModelCheckpoint(
+    filepath=os.path.join('models', 'pneumonia_best_model.keras'),
+    save_best_only=True,
+    monitor='val_accuracy',
+    mode='max',
+    verbose=1
+)
+
+# Lower learning rate if stuck
+lr_reduction = callbacks.ReduceLROnPlateau(
+    monitor='val_accuracy',
+    patience=2, # reduce after 2 epochs
+    verbose=1,
+    factor=0.3,
+    min_lr=0.000001
+)
+
+# Stop if not improving
+early_stopping = callbacks.EarlyStopping(
+    monitor='val_accuracy',
+    patience=5, # stop after 5 epochs of no improvement
+    restore_best_weights=True
+)
+
+# Training Model
 print("\nStarting Training...")
 history = model.fit(
     train_ds,
-    epochs=12,
+    epochs=15,
     validation_data=val_ds,
+    callbacks=[checkpoint, lr_reduction, early_stopping]    # use all callbacks
 )
 
 # Evaluate
