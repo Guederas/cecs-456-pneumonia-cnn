@@ -29,4 +29,32 @@ def predict_image(file_path):
     else:
         return "NORMAL", score * 100, img
     
-# Gather Random Images
+# Gather 5 random images from each folder
+normal_dir = os.path.join(TEST_DIR, 'NORMAL')
+pneumonia_dir = os.path.join(TEST_DIR, 'PNEUMONIA')
+
+normal_files = [os.path.join(normal_dir, f) for f in random.sample(os.listdir(normal_dir), 5)]
+pneumonia_files = [os.path.join(pneumonia_dir, f) for f in random.sample(os.listdir(pneumonia_dir), 5)]
+all_files = normal_files + pneumonia_files
+random.shuffle(all_files)   # mix the files
+
+# Plot results
+plt.figure(figsize=(12, 8))
+for i, file_path in enumerate(all_files):
+    label, confidence, img = predict_image(file_path)
+
+    # Get the actual value from the folder name
+    actual = "PNEUMONIA" if "PNEUMONIA" in file_path else "NORMAL"
+
+    # Color code: green if correct, red if wrong
+    color = 'green' if label == actual else 'red'
+
+    plt.subplot(2, 3, i + 1)
+    plt.imshow(img, cmap='gray')
+    plt.title(f"Predicted: {label} ({confidence:.1f}%)\nActual: {actual}", color=color)
+    plt.axis('off')
+
+plt.tight_layout()
+plt.savefig(os.path.join('results', 'prediction_results.png'))
+print("Saved prediction grid to 'prediction_results.png'")
+plt.show()
