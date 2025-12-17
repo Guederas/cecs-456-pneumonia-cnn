@@ -90,7 +90,7 @@ model.add(layers.Dense(1, activation='sigmoid'))    # binary output (normal or p
 
 # Compile
 model.compile(
-    optimizer='adam',
+    optimizer='rmsprop',    # maybe switch back to adam
     loss='binary_crossentropy',
     metrics=['accuracy']
 )
