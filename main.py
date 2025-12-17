@@ -128,7 +128,7 @@ print("\nStarting Training...")
 history = model.fit(
     train_ds,
     epochs=15,
-    validation_data=test_ds,    # using test data instead because val_ds only contains 16 photos
+    validation_data=val_ds,    # using test data instead because val_ds only contains 16 photos
     callbacks=[checkpoint, lr_reduction, early_stopping]    # use all callbacks
 )
 
