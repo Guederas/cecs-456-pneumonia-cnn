@@ -90,7 +90,7 @@ model.add(layers.Dense(1, activation='sigmoid'))    # binary output (normal or p
 
 # Compile
 model.compile(
-    optimizer='rmsprop',    # maybe switch back to adam
+    optimizer='adam',    # maybe switch back to adam
     loss='binary_crossentropy',
     metrics=['accuracy']
 )
@@ -128,7 +128,7 @@ print("\nStarting Training...")
 history = model.fit(
     train_ds,
     epochs=15,
-    validation_data=val_ds,
+    validation_data=test_ds,
     callbacks=[checkpoint, lr_reduction, early_stopping]    # use all callbacks
 )
 
