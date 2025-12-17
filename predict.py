@@ -55,6 +55,21 @@ for i, file_path in enumerate(all_files):
     plt.axis('off')
 
 plt.tight_layout()
-plt.savefig(os.path.join('results', 'prediction_results.png'))
-print("Saved prediction grid to 'prediction_results.png'")
+
+# Allow saving multiple figures
+save_dir = 'results'
+base_name = 'prediction_results'
+extension = 'png'
+counter = 1
+
+filename = f"{base_name}{extension}"    # start with the default name
+save_path = os.path.join(save_dir, filename)
+
+while os.path.exists(save_path):
+    filename = f"{base_name}_{counter}{extension}"  # add _1, _2, ..., to end of file if exists
+    save_path = os.path.join(save_dir, filename)
+    counter += 1    # increase file by 1 everytime we find a name that already exists
+
+plt.savefig(save_path)
+print(f"Saved prediction grid to '{save_path}'")
 plt.show()
