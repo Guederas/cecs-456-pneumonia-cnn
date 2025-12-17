@@ -17,7 +17,7 @@ def predict_image(file_path):
     # Load and preprocess image
     img = keras.utils.load_img(file_path, color_mode='grayscale', target_size=(IMG_SIZE, IMG_SIZE))
     img_array = keras.utils.img_to_array(img)
-    img_array = img_array / 255.0   # normalizing it
+
     img_array = np.expand_dims(img_array, axis=0)   # add batch dimension
 
     # Predict
@@ -59,7 +59,7 @@ plt.tight_layout()
 # Allow saving multiple figures
 save_dir = 'results'
 base_name = 'prediction_results'
-extension = 'png'
+extension = '.png'
 counter = 1
 
 filename = f"{base_name}{extension}"    # start with the default name
