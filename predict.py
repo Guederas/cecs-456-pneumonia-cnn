@@ -27,7 +27,7 @@ def predict_image(file_path):
     if score > 0.50:
         return "PNEUMONIA", score * 100, img
     else:
-        return "NORMAL", score * 100, img
+        return "NORMAL", (1 - score) * 100, img
     
 # Gather 5 random images from each folder
 normal_dir = os.path.join(TEST_DIR, 'NORMAL')
@@ -39,7 +39,7 @@ all_files = normal_files + pneumonia_files
 random.shuffle(all_files)   # mix the files
 
 # Plot results
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(15, 8))
 for i, file_path in enumerate(all_files):
     label, confidence, img = predict_image(file_path)
 
@@ -49,7 +49,7 @@ for i, file_path in enumerate(all_files):
     # Color code: green if correct, red if wrong
     color = 'green' if label == actual else 'red'
 
-    plt.subplot(2, 3, i + 1)
+    plt.subplot(2, 5, i + 1)
     plt.imshow(img, cmap='gray')
     plt.title(f"Predicted: {label} ({confidence:.1f}%)\nActual: {actual}", color=color)
     plt.axis('off')
