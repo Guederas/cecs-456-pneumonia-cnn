@@ -1,5 +1,4 @@
 # CNN model that predicts Pneumonia or Normal given X-ray dataset
-import tensorflow as tf
 import keras
 from keras import layers, models
 import os
@@ -39,11 +38,21 @@ val_ds = keras.utils.image_dataset_from_directory(
     color_mode='grayscale'
 )
 
+# Data augmentation layer to address overfitting
+data_augmentation = keras.Sequential([
+    layers.RandomFlip('horizontal'),
+    layers.RandomRotation(0.1),
+    layers.RandomZoom(0.1),
+])
+
 # CNN Model
 model = models.Sequential() # initializing the CNN
 
 model.add(layers.Input(shape=(IMG_SIZE, IMG_SIZE, 1)))    # 1 channel for grayscale
 model.add(layers.Rescaling(1./255)) # normalizing pixel values
+
+# Add Augmentation (only active during training)
+model.add(data_augmentation)
 
 # Block 1
 model.add(layers.Conv2D(32, (3, 3), strides=1, padding='same', activation='relu'))  # convolution 1
