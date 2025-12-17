@@ -24,8 +24,9 @@ def predict_image(file_path):
     # Predict
     prediction = model.predict(img_array, verbose=0)
     score = prediction[0][0]
+    threshold = 0.30    # we prioritize recall here since we are dealing with medical analysis
 
-    if score > 0.50:
+    if score > threshold:
         return "PNEUMONIA", score * 100, img
     else:
         return "NORMAL", (1 - score) * 100, img
