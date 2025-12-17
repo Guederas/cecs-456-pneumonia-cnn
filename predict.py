@@ -12,6 +12,7 @@ TEST_DIR = os.path.join('data', 'test')
 # Load the trained model once
 print("Loading model...")
 model = keras.models.load_model(MODEL_PATH)
+model.summary() # check if model is good, comment after
 
 def predict_image(file_path):
     # Load and preprocess image
