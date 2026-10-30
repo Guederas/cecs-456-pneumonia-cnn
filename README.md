@@ -1,39 +1,59 @@
-# CECS 456 Pneumonia Detection CNN
-1. **Download** the dataset from Kaggle: [Chest X_Ray Images (Pneumonia)](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia/data)
+# Pneumonia Detection CNN
 
-2. **Create** a folder named `data` in this directory.
+A project for CECS 456 (Machine Learning) at California State University, Long Beach. I built and trained a convolutional neural network (CNN) to classify pediatric chest X-rays as **NORMAL** or **PNEUMONIA**.
 
-3. **Unzip** the images into `data/`.
+## How it works
 
-4. **Install Dependencies:**
-    Make sure you have Python 3.11 installed. It is recommended to use a virtual environment.
-    ```bash
-    pip install tensorflow numpy matplotlib seaborn scikit-learn
-    ```
-    *(Note: If you are on an Apple Silicon Mac, you may need `tensorflow-macos` and `tensorflow-metal` depending on your version).*
+- **Input:** Chest X-rays resized to 150 × 150 pixels in grayscale, with pixel values rescaled to 0–1.
+- **Model:** Five convolutional blocks with batch normalization and max pooling, followed by a dense layer and a sigmoid output.
+- **Training:** Image augmentation (flips, rotations, and zooms), dropout, early stopping, and learning-rate reduction to help limit overfitting.
+- **Evaluation:** A classification threshold of **0.30** was used to prioritize detecting pneumonia cases, with the tradeoff of more false positives.
 
-5. **Train the Model:**
-    Run the main script to train the CNN. This will save the best model to the `models/` folder and generate a training accuracy plot.
-    ```bash
-    python main.py
-    ```
+The project uses Python, Keras/TensorFlow, NumPy, Matplotlib, Seaborn, and Scikit-Learn.
 
-6. **Evaluate Performance:**
-    Run the evaluation script to generate the **Confusion Matrix** and calculate Precision/Recall scores. The confusion matrix image will be saved in the `results/` folder.
-    ```bash
-    python evaluate_model.py
-    ```
+## Results
 
-7. **Test Predictions:**
-    Run the prediction script to visualize the model's performance on a batch of random test images. The resulting grid will be saved to the `results/` folder.
-    ```bash
-    python predict.py
-    ```
+The saved confusion matrix shows these results on **624 test images** at the 0.30 threshold:
 
-## Project Structure
-* `main.py`: Contains the CNN architecture, data augmentation, and training loop.
-* `evaluate_model.py`: Generates the Confusion Matrix and classification report (Precision/Recall).
-* `predict.py`: Loads random test images and displays them with the model's predictions and confidence scores.
-* `models/`: Stores the trained models.
-* `results/`: Stores output graphs and prediction visualizations.
-* `data/`: Contains the Train, Test, and Validation datasets.
+| Metric | Result |
+| --- | ---: |
+| Accuracy | 87.5% (546 / 624) |
+| Pneumonia recall | 97.2% (379 / 390) |
+| Missed pneumonia cases | 11 |
+| Normal images flagged as pneumonia | 67 |
+
+![Confusion matrix](results/confusion_matrix.png)
+
+Sample predictions from the test set:
+
+![Sample CNN predictions](results/prediction_results_1.png)
+
+These results are from a course project, not a clinically validated diagnostic system. The provided validation split is also small, so performance may not generalize to other datasets.
+
+## Running the project
+
+1. Download the [Chest X-Ray Images (Pneumonia) dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia/data) from Kaggle.
+2. Extract it under `data/`, keeping the original `train/`, `val/`, and `test/` folders. Each should contain `NORMAL/` and `PNEUMONIA/` subfolders.
+3. Use Python 3.11 and install the dependencies:
+
+   ```bash
+   pip install tensorflow numpy matplotlib seaborn scikit-learn
+   ```
+
+4. Run the scripts:
+
+   ```bash
+   python main.py            # Train and save the model
+   python evaluate_model.py  # Print metrics and save a confusion matrix
+   python predict.py         # Show and save sample predictions
+   ```
+
+The dataset and trained model files are not included in the repository. Train the model first to create the model files in `models/`.
+
+## Files
+
+- `main.py` — Model architecture and training loop
+- `evaluate_model.py` — Classification report and confusion matrix
+- `predict.py` — Sample predictions and visualization
+- `results/` — Saved evaluation images
+- [`Report.pdf`](Report.pdf) — Full course project report
